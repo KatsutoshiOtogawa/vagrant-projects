@@ -53,7 +53,7 @@ yum -y localinstall https://download.oracle.com/otn-pub/otn_software/db-express/
 echo 'INSTALLER: Oracle software installed'
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 128 | sed 's/\W//g'`"}
 
 # Create database
 mv /etc/sysconfig/oracle-xe-18c.conf /etc/sysconfig/oracle-xe-18c.conf.original

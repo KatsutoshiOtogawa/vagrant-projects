@@ -48,7 +48,7 @@ sudo ln -s /u01/app/oracle /opt/oracle
 echo 'INSTALLER: Oracle software installed'
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 128 | sed 's/\W//g'`"}
 
 cp /vagrant/ora-response/xe.rsp.tmpl /tmp/xe.rsp
 sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/xe.rsp

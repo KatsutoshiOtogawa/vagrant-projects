@@ -117,7 +117,7 @@ echo 'INSTALLER: Listener created'
 # Create database
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 128 | sed 's/\W//g'`"}
 
 cp /vagrant/ora-response/dbca.rsp.tmpl /tmp/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp

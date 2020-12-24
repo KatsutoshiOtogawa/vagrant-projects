@@ -32,12 +32,12 @@ echo 'INSTALLER: Locale set'
 sudo timedatectl set-timezone $SYSTEM_TIMEZONE
 echo "INSTALLER: System time zone set to $SYSTEM_TIMEZONE"
 
-# Install Oracle Database prereq and openssl packages
+# Install Oracle Database prereq and libpwquality packages
 # (preinstall is pulled automatically with 18c XE rpm, but it
 #  doesn't create /home/oracle unless it's installed separately)
-yum install -y oracle-database-preinstall-18c openssl
+yum install -y oracle-database-preinstall-18c libpwquality
 
-echo 'INSTALLER: Oracle preinstall and openssl complete'
+echo 'INSTALLER: Oracle preinstall and libpwquality complete'
 
 # set environment variables
 echo "export ORACLE_BASE=/opt/oracle" >> /home/oracle/.bashrc
@@ -53,7 +53,7 @@ yum -y localinstall https://download.oracle.com/otn-pub/otn_software/db-express/
 echo 'INSTALLER: Oracle software installed'
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`openssl rand -base64 8`1"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
 
 # Create database
 mv /etc/sysconfig/oracle-xe-18c.conf /etc/sysconfig/oracle-xe-18c.conf.original

@@ -21,9 +21,9 @@ yum upgrade -y
 
 echo 'INSTALLER: System updated'
 
-yum install -y bc oracle-database-server-12cR2-preinstall openssl
+yum install -y bc oracle-database-server-12cR2-preinstall libpwquality
 
-echo 'INSTALLER: Oracle preinstall and openssl complete'
+echo 'INSTALLER: Oracle preinstall and libpwquality complete'
 
 # fix locale warning
 yum reinstall -y glibc-common
@@ -48,7 +48,7 @@ sudo ln -s /u01/app/oracle /opt/oracle
 echo 'INSTALLER: Oracle software installed'
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`openssl rand -hex 8`"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
 
 cp /vagrant/ora-response/xe.rsp.tmpl /tmp/xe.rsp
 sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/xe.rsp

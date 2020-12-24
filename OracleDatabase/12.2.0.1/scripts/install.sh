@@ -32,10 +32,10 @@ echo 'INSTALLER: Locale set'
 sudo timedatectl set-timezone $SYSTEM_TIMEZONE
 echo "INSTALLER: System time zone set to $SYSTEM_TIMEZONE"
 
-# Install Oracle Database prereq and openssl packages
-yum install -y oracle-database-server-12cR2-preinstall openssl
+# Install Oracle Database prereq and libpwquality packages
+yum install -y oracle-database-server-12cR2-preinstall libpwquality
 
-echo 'INSTALLER: Oracle preinstall and openssl complete'
+echo 'INSTALLER: Oracle preinstall and libpwquality complete'
 
 # create directories
 mkdir -p $ORACLE_BASE
@@ -103,7 +103,7 @@ echo 'INSTALLER: Listener created'
 # Create database
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`openssl rand -base64 8`1"}
+export ORACLE_PWD=${ORACLE_PWD:-"`pwmake 256 | sed 's/\W//g'`"}
 
 cp /vagrant/ora-response/dbca.rsp.tmpl /tmp/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp
